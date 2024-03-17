@@ -72,14 +72,18 @@ export class NameService {
   }
 
   async findFirstTenRows(): Promise<any> {
-    return (await this.nameModel.find().limit(10).exec()) ?? [];
+    const result = await this.nameModel.find().limit(10).exec();
+    this.logger.log(`result: ${result.length}`);
+
+    return result ?? [];
   }
 
   async findByString(str: string): Promise<any> {
-    return (
-      (await this.nameModel
-        .find({ name: { $regex: str, $options: 'i' } })
-        .exec()) ?? []
-    );
+    const result = await this.nameModel
+      .find({ name: { $regex: str, $options: 'i' } })
+      .exec();
+    this.logger.log(`result: ${result.length}`);
+
+    return result ?? [];
   }
 }
