@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from "mongoose";
+import { Model, Types } from 'mongoose';
 import { Name, NameDocument } from './schemas/name.schema';
 import { DateTime } from 'luxon';
 
@@ -32,11 +32,13 @@ export class NameService {
     }
 
     return result;
-  };
+  }
 
   async create(): Promise<void> {
     const startTime = DateTime.now();
-    this.logger.log(`Process start at ${startTime.toLocaleString(DateTime.TIME_24_WITH_SECONDS)}`);
+    this.logger.log(
+      `Process start at ${startTime.toLocaleString(DateTime.TIME_24_WITH_SECONDS)}`,
+    );
 
     for (let i = 0; i < 10 ** 6; i += 1) {
       await new this.nameModel({
@@ -45,8 +47,12 @@ export class NameService {
     }
 
     const endTime = DateTime.now();
-    const duration = endTime.diff(startTime, ['hours', 'minutes', 'seconds', 'milliseconds']).toObject();
-    this.logger.log(`Process end at ${endTime.toLocaleString(DateTime.TIME_24_WITH_SECONDS)}`);
+    const duration = endTime
+      .diff(startTime, ['hours', 'minutes', 'seconds', 'milliseconds'])
+      .toObject();
+    this.logger.log(
+      `Process end at ${endTime.toLocaleString(DateTime.TIME_24_WITH_SECONDS)}`,
+    );
     this.logger.log(`Process duration: ${JSON.stringify(duration)}`);
 
     return;
@@ -54,20 +60,26 @@ export class NameService {
 
   async findOne(name: string): Promise<any> {
     this.logger.log(`name: ${name}`);
-    return await this.nameModel.findOne({ name }).exec() ?? {};
+    return (await this.nameModel.findOne({ name }).exec()) ?? {};
   }
 
   async findById(id: string): Promise<any> {
-    const [result] =  await this.nameModel.find({_id: new Types.ObjectId(id)}).exec();
+    const [result] = await this.nameModel
+      .find({ _id: new Types.ObjectId(id) })
+      .exec();
     this.logger.log(`result: ${JSON.stringify(result)}`);
     return result ?? {};
   }
 
   async findFirstTenRows(): Promise<any> {
-    return await this.nameModel.find().limit(10).exec() ?? [];
+    return (await this.nameModel.find().limit(10).exec()) ?? [];
   }
 
   async findByString(str: string): Promise<any> {
-    return await this.nameModel.find({ name: { $regex: str, $options: 'i' } }).exec() ?? [];
+    return (
+      (await this.nameModel
+        .find({ name: { $regex: str, $options: 'i' } })
+        .exec()) ?? []
+    );
   }
 }

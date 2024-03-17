@@ -1,6 +1,6 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from "@nestjs/common";
-import { NameService } from "./name.service";
-import { CreateNameDto } from "./dto/create-name.dto";
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { NameService } from './name.service';
+import { CreateNameDto } from './dto/create-name.dto';
 
 @Controller('name')
 export class NameController {
@@ -31,5 +31,4 @@ export class NameController {
   async findByString(@Param('str') str: string) {
     return await this.service.findByString(str);
   }
-
 }

@@ -1,3 +1,3 @@
 export class CreateNameDto {
-  name: string
+  name: string;
 }
