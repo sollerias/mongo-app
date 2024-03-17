@@ -27,8 +27,8 @@ export class NameController {
     return await this.service.findById(id);
   }
 
-  @Get('substring/:str')
-  async findByString(@Param('str') str: string) {
-    return await this.service.findByString(str);
+  @Post('substring/get')
+  async findByString(@Body() body: any) {
+    return await this.service.findByString(body.substring);
   }
 }

@@ -79,6 +79,8 @@ export class NameService {
   }
 
   async findByString(str: string): Promise<any> {
+    this.logger.log(`substring: ${str}`);
+
     const result = await this.nameModel
       .find({ name: { $regex: str, $options: 'i' } })
       .exec();
